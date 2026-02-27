@@ -72,25 +72,30 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 }
 .page-title strong { color: #fff; font-weight: 700; }
 
-/* ── Hierarchy: Equity / Debt ── */
+/* ── Hierarchy: Logo → Equity/Debt → Private/Public/Sovereign ── */
 .hierarchy {
   display: flex; flex-direction: column; align-items: center;
   margin-bottom: 3.5rem; animation: fadeUp .8s .15s ease-out both;
 }
-.hierarchy-connector { width: 1px; height: 28px; background: rgba(255,255,255,0.1); }
-.branch-row { display: flex; gap: 4rem; position: relative; padding-top: .5rem; }
-.branch-row::before {
-  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 6rem); height: 1px; background: rgba(255,255,255,0.06);
+.h-connector { width: 1px; height: 24px; background: rgba(255,255,255,0.1); }
+.h-row {
+  display: flex; justify-content: center; gap: 3rem;
+  position: relative; padding: .5rem 0;
 }
-.branch { display: flex; flex-direction: column; align-items: center; gap: .8rem; }
-.branch::before { content: ''; width: 1px; height: 14px; background: rgba(255,255,255,0.06); }
-.branch-label {
-  font-family: var(--font-display); font-weight: 600; font-size: .75rem;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted);
+/* Horizontal bridge line behind a row */
+.h-row.bridged::before {
+  content: ''; position: absolute; top: 50%; left: 0; right: 0;
+  height: 1px; background: rgba(255,255,255,0.08); transform: translateY(-50%);
+}
+.h-node {
+  position: relative; z-index: 1;
+  font-family: var(--font-display); font-weight: 600; font-size: .8rem;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--text-secondary);
+  background: var(--navy-900); padding: 0 .8rem;
 }
 .pills { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
 .pill {
+  position: relative; z-index: 1;
   padding: .45rem 1.3rem; border-radius: 100px;
   font-family: var(--font-display); font-weight: 700; font-size: .82rem;
   background: linear-gradient(135deg, var(--coral), var(--coral-dark));
@@ -224,6 +229,11 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   font-weight: 500; font-size: .9rem; color: var(--text-secondary);
   display: flex; align-items: center; gap: .6rem;
   transition: color .2s, padding-left .2s;
+  /* Start hidden, animated in by JS */
+  opacity: 0; transform: translateY(12px);
+}
+.card-body li.revealed {
+  animation: dropIn .5s ease-out forwards;
 }
 .card-body li:last-child { border-bottom: none; }
 .card-body li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
@@ -231,6 +241,11 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .card:nth-child(2) li::before { background: var(--coral-light); }
 .card:nth-child(3) li::before { background: var(--teal); }
 .card:hover li { color: var(--text-primary); }
+
+@keyframes dropIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 /* ── Impact ── */
 .impact {
@@ -315,22 +330,19 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
     <h1 class="page-title">Where does <strong>RetailBook</strong> sit within the Ecosystem?</h1>
   </header>
 
-  <!-- Hierarchy: Equity / Debt -->
+  <!-- Hierarchy: Logo → Equity/Debt → Private/Public/Sovereign -->
   <section class="hierarchy">
-    <div class="hierarchy-connector"></div>
-    <div class="branch-row">
-      <div class="branch">
-        <span class="branch-label">Equity</span>
-        <div class="pills">
-          <span class="pill">Private</span>
-          <span class="pill">Public</span>
-        </div>
-      </div>
-      <div class="branch">
-        <span class="branch-label">Debt</span>
-        <div class="pills">
-          <span class="pill">Sovereign</span>
-        </div>
+    <div class="h-connector"></div>
+    <div class="h-row bridged">
+      <span class="h-node">Equity</span>
+      <span class="h-node">Debt</span>
+    </div>
+    <div class="h-connector"></div>
+    <div class="h-row bridged">
+      <div class="pills">
+        <span class="pill">Private</span>
+        <span class="pill">Public</span>
+        <span class="pill">Sovereign</span>
       </div>
     </div>
   </section>
@@ -461,6 +473,21 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   }
   window.addEventListener('resize', () => { resize(); init(); });
   resize(); init(); draw();
+
+  // Card bullet drop-in animation
+  const cards = document.querySelectorAll('.card');
+  const cardObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const items = entry.target.querySelectorAll('li');
+        items.forEach((li, i) => {
+          setTimeout(() => li.classList.add('revealed'), i * 150);
+        });
+        cardObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  cards.forEach(c => cardObs.observe(c));
 
   // Counter
   const el = document.getElementById('statCounter');
