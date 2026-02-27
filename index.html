@@ -324,38 +324,16 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 
 /* ── Print ── */
 @media print {
-  body, body::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
   body::before { position: absolute; }
   .grid-bg, canvas#particles { display: none !important; }
   .uk-map { opacity: 0.04 !important; position: absolute; }
-  .page { padding: 1rem 1rem 1.5rem; }
-  /* Kill all animations, force everything visible */
-  .page-title, .header, .hierarchy, .pipeline-section, .cards-section,
-  .impact, .tagline, .h-row, .h-connector, .pills,
-  .card, .card-head, .card-body, .card-body li {
-    animation: none !important; opacity: 1 !important; transform: none !important;
-  }
-  /* Force desktop grid layouts at print widths */
-  .cards-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; gap: 1rem !important; }
-  .pipeline {
-    display: grid !important; grid-template-columns: repeat(7, 1fr) !important;
-    grid-template-rows: auto auto auto !important; max-width: 100% !important;
-    flex-direction: unset !important;
-  }
-  .pl-top { grid-row: 1 !important; display: flex !important; }
-  .pl-mid { grid-row: 2 !important; display: flex !important; }
-  .pl-bot { grid-row: 3 !important; display: flex !important; }
-  .pl-top.empty, .pl-bot.empty { display: flex !important; visibility: hidden; }
-  .pipeline-line { display: block !important; }
-  /* Tighten spacing to fit one page */
-  .header { margin-bottom: 1rem !important; }
-  .hierarchy { margin-bottom: 1.5rem !important; }
-  .pipeline-section { margin-bottom: 1.5rem !important; }
-  .cards-section { margin-bottom: 1.5rem !important; }
-  .impact { padding: 1.5rem 1rem !important; margin-bottom: 1rem !important; }
-  .pipeline-heading { margin-bottom: 1rem !important; }
-  .page-title { margin-bottom: 1rem !important; }
-  .logo-svg { height: 36px !important; }
+  .page { padding: 1.5rem 1.5rem 2rem; }
+  .card-body li { opacity: 1 !important; transform: none !important; }
+  .cards-section, .hierarchy, .pipeline-section, .impact, .tagline,
+  .header, .page-title { opacity: 1 !important; transform: none !important; }
+  /* Force 3-column cards at print widths */
+  .cards-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
 }
 </style>
 </head>
