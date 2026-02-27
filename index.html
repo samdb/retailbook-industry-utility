@@ -333,6 +333,16 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   .grid-bg, canvas#particles { display: none !important; }
   .uk-map { opacity: 0.04 !important; position: absolute; }
   .card-body li { opacity: 1 !important; transform: none !important; }
+  /* Use flexbox instead of grid for cards - Chrome fragments grid rows across pages */
+  .cards-grid {
+    display: flex !important;
+    gap: 1rem !important;
+  }
+  .cards-grid .card {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+  .cards-section { break-inside: avoid; }
 }
 </style>
 </head>
