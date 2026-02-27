@@ -324,14 +324,15 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 
 /* ── Print ── */
 @media print {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition: none !important;
+  }
   body::before { position: absolute; }
   .grid-bg, canvas#particles { display: none !important; }
   .uk-map { opacity: 0.04 !important; position: absolute; }
-  .page { padding: 1.5rem 1.5rem 2rem; }
   .card-body li { opacity: 1 !important; transform: none !important; }
-  .cards-section, .hierarchy, .pipeline-section, .impact, .tagline,
-  .header, .page-title { opacity: 1 !important; transform: none !important; }
   /* Force 3-column cards at print widths */
   .cards-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
 }
