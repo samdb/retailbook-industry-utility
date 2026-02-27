@@ -324,22 +324,19 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 
 /* ── Print ── */
 @media print {
-  *, *::before, *::after {
-    animation: none !important; transition: none !important;
-    opacity: revert !important;
-  }
   body, body::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body::before { position: absolute; }
   .grid-bg, canvas#particles { display: none !important; }
   .uk-map { opacity: 0.04 !important; position: absolute; }
   .page { padding: 1rem 1rem 1.5rem; }
-  /* Force all animated sections visible */
+  /* Kill all animations, force everything visible */
   .page-title, .header, .hierarchy, .pipeline-section, .cards-section,
-  .impact, .tagline, .card-body li, .h-row, .h-connector, .pills {
-    opacity: 1 !important; transform: none !important;
+  .impact, .tagline, .h-row, .h-connector, .pills,
+  .card, .card-head, .card-body, .card-body li {
+    animation: none !important; opacity: 1 !important; transform: none !important;
   }
-  /* Force desktop layout at print widths */
-  .cards-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; }
+  /* Force desktop grid layouts at print widths */
+  .cards-grid { grid-template-columns: repeat(3, 1fr) !important; max-width: 100% !important; gap: 1rem !important; }
   .pipeline {
     display: grid !important; grid-template-columns: repeat(7, 1fr) !important;
     grid-template-rows: auto auto auto !important; max-width: 100% !important;
