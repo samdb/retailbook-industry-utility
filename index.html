@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetailBook — Industry Utility Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS & VARIABLES
+   ═══════════════════════════════════════════ */
+:root {
+  --navy-900: #060d1f;
+  --navy-800: #0a1628;
+  --navy-700: #0f1d35;
+  --navy-600: #162544;
+  --navy-500: #1e3055;
+  --navy-400: #2a4270;
+  --navy-300: #3d5a8a;
+  --coral: #ff3366;
+  --coral-light: #ff5c8a;
+  --coral-dark: #e6204f;
+  --coral-glow: rgba(255, 51, 102, 0.35);
+  --gold: #f0c040;
+  --teal: #22d3ee;
+  --glass-bg: rgba(15, 29, 53, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-shine: rgba(255, 255, 255, 0.03);
+  --text-primary: #e8edf5;
+  --text-secondary: #8a9bbd;
+  --text-muted: #4a5f85;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--navy-900);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════
+   BACKGROUND — ANIMATED GRID + GLOW
+   ═══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,51,102,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(34,211,238,0.04) 0%, transparent 50%),
+    linear-gradient(180deg, var(--navy-900) 0%, #080e20 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.25;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+}
+
+/* ═══════════════════════════════════════════
+   CANVAS — PARTICLE NETWORK
+   ═══════════════════════════════════════════ */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTAINER
+   ═══════════════════════════════════════════ */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER — LOGO + TITLE
+   ═══════════════════════════════════════════ */
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+  animation: fadeUp 0.8s ease-out both;
+}
+
+.logo {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.logo-svg {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.page-title strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════
+   HIERARCHY — RETAILBOOK → EQUITY/DEBT → CATEGORIES
+   ═══════════════════════════════════════════ */
+.hierarchy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4.5rem;
+  animation: fadeUp 0.8s 0.15s ease-out both;
+}
+
+.hierarchy-connector {
+  width: 2px;
+  height: 32px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+}
+
+.branch-row {
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.branch-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 6rem);
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+}
+
+.branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.branch::before {
+  content: '';
+  width: 2px;
+  height: 16px;
+  background: rgba(255,255,255,0.06);
+}
+
+.branch-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pills {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.5rem 1.4rem;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dark) 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px var(--coral-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.pill:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 30px rgba(255,51,102,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* ═══════════════════════════════════════════
+   PIPELINE — HORIZONTAL NODE CHAIN
+   ═══════════════════════════════════════════ */
+.pipeline-section {
+  margin-bottom: 4rem;
+  animation: fadeUp 0.8s 0.3s ease-out both;
+}
+
+.pipeline-label-header {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.pipeline {
+  position: relative;
+  height: 120px;
+  margin: 0 1rem;
+}
+
+/* The connecting line — positioned at vertical centre */
+.pipeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg,
+    var(--coral) 0%,
+    var(--coral-light) 30%,
+    var(--coral) 60%,
+    var(--coral-light) 100%
+  );
+  border-radius: 3px;
+  box-shadow: 0 0 20px var(--coral-glow);
+  z-index: 0;
+}
+
+/* Animated glow traveling along the line */
+.pipeline-glow {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  transform: translateY(-50%);
+  border-radius: 3px;
+  z-index: 1;
+  animation: pipelineGlow 4s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes pipelineGlow {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { left: calc(100% - 80px); opacity: 0; }
+}
+
+/* Each node is absolutely positioned on the line */
+.node {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  transform: translateX(-50%);
+}
+
+/* Distribute 7 nodes evenly */
+.node:nth-child(3) { left: 2%; }
+.node:nth-child(4) { left: 18.33%; }
+.node:nth-child(5) { left: 34.66%; }
+.node:nth-child(6) { left: 51%; }
+.node:nth-child(7) { left: 67.33%; }
+.node:nth-child(8) { left: 83.66%; }
+.node:nth-child(9) { left: 98%; }
+
+.node-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--coral);
+  border: 3px solid var(--navy-800);
+  box-shadow:
+    0 0 0 3px rgba(255,51,102,0.25),
+    0 0 15px var(--coral-glow);
+  transition: transform 0.25s, box-shadow 0.25s;
+  animation: nodePulse 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.node:nth-child(4) .node-dot { animation-delay: 0.4s; }
+.node:nth-child(5) .node-dot { animation-delay: 0.8s; }
+.node:nth-child(6) .node-dot { animation-delay: 1.2s; }
+.node:nth-child(7) .node-dot { animation-delay: 1.6s; }
+.node:nth-child(8) .node-dot { animation-delay: 2.0s; }
+.node:nth-child(9) .node-dot { animation-delay: 2.4s; }
+
+@keyframes nodePulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255,51,102,0.2), 0 0 15px var(--coral-glow); }
+  50% { box-shadow: 0 0 0 6px rgba(255,51,102,0.1), 0 0 25px rgba(255,51,102,0.4); }
+}
+
+.node:hover .node-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 5px rgba(255,51,102,0.3), 0 0 30px rgba(255,51,102,0.5);
+}
+
+.node-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.3;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.node:hover .node-label { color: #fff; }
+
+/* Labels above the line: dot at bottom, label above */
+.node.label-above {
+  flex-direction: column;
+  transform: translateX(-50%) translateY(-50%);
+}
+.node.label-above .node-label {
+  margin-bottom: 8px;
+}
+
+/* Labels below the line: dot at top, label below */
+.node.label-below {
+  flex-direction: column;
+  transform: translateX(-50%) translateY(-50%);
+}
+.node.label-below .node-dot { order: -1; }
+.node.label-below .node-label {
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   ENTITY CARDS — GLASSMORPHISM
+   ═══════════════════════════════════════════ */
+.cards-section {
+  margin-bottom: 4rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.25),
+    inset 0 1px 0 var(--glass-shine);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+  animation: fadeUp 0.8s ease-out both;
+}
+
+.card:nth-child(1) { animation-delay: 0.4s; }
+.card:nth-child(2) { animation-delay: 0.55s; }
+.card:nth-child(3) { animation-delay: 0.7s; }
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.35),
+    inset 0 1px 0 var(--glass-shine);
+  border-color: rgba(255,51,102,0.2);
+}
+
+.card-head {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.card:nth-child(1) .card-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+}
+
+.card:nth-child(2) .card-icon {
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dark) 100%);
+  box-shadow: 0 4px 12px var(--coral-glow);
+}
+
+.card:nth-child(3) .card-icon {
+  background: linear-gradient(135deg, var(--teal) 0%, #06b6d4 100%);
+  box-shadow: 0 4px 12px rgba(34,211,238,0.3);
+}
+
+.card-head-text h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.card-head-text span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.card-body ul {
+  list-style: none;
+}
+
+.card-body li {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.card-body li:last-child { border-bottom: none; }
+
+.card-body li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.card:nth-child(1) li::before { background: #818cf8; }
+.card:nth-child(2) li::before { background: var(--coral-light); }
+.card:nth-child(3) li::before { background: var(--teal); }
+
+.card:hover li { color: var(--text-primary); }
+.card-body li:hover { padding-left: 0.4rem; }
+
+/* ═══════════════════════════════════════════
+   IMPACT STATEMENT
+   ═══════════════════════════════════════════ */
+.impact {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+  animation: fadeUp 0.8s 0.85s ease-out both;
+}
+
+.impact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,51,102,0.06) 0%, rgba(34,211,238,0.03) 100%);
+  border: 1px solid rgba(255,51,102,0.08);
+}
+
+.impact-stat {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 5rem);
+  background: linear-gradient(135deg, var(--coral) 0%, var(--coral-light) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.impact-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
+}
+
+.impact-text em {
+  font-style: normal;
+  color: var(--coral-light);
+  font-weight: 600;
+}
+
+.impact-highlight {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════════════════════════════════
+   TAGLINE FOOTER
+   ═══════════════════════════════════════════ */
+.tagline {
+  text-align: center;
+  padding: 2.5rem 0 1rem;
+  animation: fadeUp 0.8s 1s ease-out both;
+}
+
+.tagline-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tagline-text span:nth-child(1) { color: var(--text-primary); }
+.tagline-text span:nth-child(2) {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85em;
+}
+.tagline-text span:nth-child(3) { color: var(--coral-light); }
+
+.rb-mark {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.rb-mark-svg {
+  height: 32px;
+  width: auto;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .page { padding: 2rem 1rem 3rem; }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .pipeline {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    position: relative;
+  }
+
+  .pipeline-line {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    width: 3px;
+    height: 100%;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .pipeline-glow { display: none; }
+
+  .node,
+  .node.label-above,
+  .node.label-below {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-direction: row !important;
+    gap: 0.8rem;
+  }
+
+  .node.label-above .node-label,
+  .node.label-below .node-label {
+    margin: 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .node.label-below .node-dot { order: 0; }
+
+  .branch-row {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .branch-row::before { display: none; }
+}
+
+@media (max-width: 600px) {
+  .logo-svg { height: 36px; }
+  .pills { gap: 0.5rem; }
+  .pill { padding: 0.4rem 1rem; font-size: 0.78rem; }
+  .impact-stat { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<canvas id="particles"></canvas>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="logo"><img src="retailbook-logo.svg" alt="RetailBook" class="logo-svg"></div>
+    <h1 class="page-title">Where does <strong>RetailBook</strong> sit within the Ecosystem?</h1>
+  </header>
+
+  <!-- ═══ HIERARCHY ═══ -->
+  <section class="hierarchy">
+    <div class="hierarchy-connector"></div>
+    <div class="branch-row">
+      <div class="branch">
+        <span class="branch-label">Equity</span>
+        <div class="pills">
+          <span class="pill">Private</span>
+          <span class="pill">Public</span>
+        </div>
+      </div>
+      <div class="branch">
+        <span class="branch-label">Debt</span>
+        <div class="pills">
+          <span class="pill">Sovereign</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PIPELINE ═══ -->
+  <section class="pipeline-section">
+    <div class="pipeline-label-header">Ecosystem Participants</div>
+    <div class="pipeline">
+      <div class="pipeline-line"></div>
+      <div class="pipeline-glow"></div>
+
+      <div class="node label-above">
+        <div class="node-label">Scale-up<br>Institute</div>
+        <div class="node-dot"></div>
+      </div>
+      <div class="node label-below">
+        <div class="node-dot"></div>
+        <div class="node-label">Financial Conduct<br>Authority</div>
+      </div>
+      <div class="node label-above">
+        <div class="node-label">Lawyers</div>
+        <div class="node-dot"></div>
+      </div>
+      <div class="node label-below">
+        <div class="node-dot"></div>
+        <div class="node-label">London Stock<br>Exchange</div>
+      </div>
+      <div class="node label-above">
+        <div class="node-label">Banks</div>
+        <div class="node-dot"></div>
+      </div>
+      <div class="node label-below">
+        <div class="node-dot"></div>
+        <div class="node-label">HM Treasury</div>
+      </div>
+      <div class="node label-above">
+        <div class="node-label">British Business<br>Bank</div>
+        <div class="node-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ENTITY CARDS ═══ -->
+  <section class="cards-section">
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M3 21V7l9-4 9 4v14" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V11h6v10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-head-text">
+            <h3>Private Co</h3>
+            <span>Pre-IPO &amp; growth capital</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>PISCES</li>
+            <li>Primary raises</li>
+            <li>Secondary raises</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke="#fff" stroke-width="2"/></svg>
+          </div>
+          <div class="card-head-text">
+            <h3>Public Issuer</h3>
+            <span>Listed equity &amp; bonds</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>IPOs</li>
+            <li>Plain Vanilla Listed Bonds</li>
+            <li>Follow-ons</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="card-head-text">
+            <h3>Gov Agencies</h3>
+            <span>Sovereign debt instruments</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>UK Treasury Bills</li>
+            <li>Infrastructure Bonds</li>
+            <li>Scottish Gov Bonds</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ IMPACT STATEMENT ═══ -->
+  <section class="impact">
+    <div class="impact-stat" id="statCounter">£600bn</div>
+    <p class="impact-text">
+      Mobilising <em>UK retail capital</em> into productive primary markets
+      could drive a <em>2% GDP uplift</em>,
+    </p>
+    <p class="impact-highlight">
+      accelerate and strengthen Britain's regional growth engine
+    </p>
+  </section>
+
+  <!-- ═══ TAGLINE ═══ -->
+  <footer class="tagline">
+    <div class="tagline-text">
+      <span>Confident Capital</span>
+      <span>Meets</span>
+      <span>Trusted Capability</span>
+    </div>
+    <div class="rb-mark"><img src="retailbook-logo.svg" alt="RB" class="rb-mark-svg"></div>
+  </footer>
+
+</div>
+
+<!-- ═══ PARTICLE NETWORK SCRIPT ═══ -->
+<script>
+(() => {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+  const PARTICLE_COUNT = 50;
+  const MAX_DIST = 150;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function createParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MAX_DIST) {
+          const alpha = (1 - dist / MAX_DIST) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(255, 51, 102, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw particles
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 51, 102, 0.15)';
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); createParticles(); });
+  resize();
+  createParticles();
+  draw();
+
+  // Counter animation for £600bn
+  const statEl = document.getElementById('statCounter');
+  let counted = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      let current = 0;
+      const target = 600;
+      const duration = 2000;
+      const start = performance.now();
+
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // ease-out cubic
+        const ease = 1 - Math.pow(1 - progress, 3);
+        current = Math.round(ease * target);
+        statEl.textContent = `£${current}bn`;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }, { threshold: 0.5 });
+
+  observer.observe(statEl);
+})();
+</script>
+
+</body>
+</html>
