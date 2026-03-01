@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetailBook — The Case for a UK Primary Capital Core Policy Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --navy-900: #060d1f;
+  --navy-800: #0a1628;
+  --navy-700: #0f1d35;
+  --navy-600: #162544;
+  --navy-500: #1c3058;
+  --navy-400: #2a4270;
+  --coral: #ff3366;
+  --coral-light: #ff5c8a;
+  --coral-dark: #e6204f;
+  --coral-glow: rgba(255, 51, 102, 0.35);
+  --teal: #22d3ee;
+  --gold: #f0b952;
+  --glass-bg: rgba(15, 29, 53, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --text-primary: #e8edf5;
+  --text-secondary: #8a9bbd;
+  --text-muted: #4a5f85;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+body {
+  font-family: var(--font-body);
+  background: var(--navy-900);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* ── Slide System ── */
+.slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5vh 8vw;
+  overflow: hidden;
+}
+.slide::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,51,102,0.04), transparent 60%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-800));
+  z-index: 0;
+  pointer-events: none;
+}
+.slide > * { position: relative; z-index: 1; }
+
+/* Slide divider line */
+.slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 8vw; right: 8vw;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--navy-400), transparent);
+}
+
+/* ── Progress Bar ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 100;
+  background: var(--navy-700);
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--coral), var(--coral-light));
+  transition: width .3s ease-out;
+  box-shadow: 0 0 12px var(--coral-glow);
+}
+
+/* ── Slide Counter ── */
+.slide-counter {
+  position: fixed; right: 2.5vw; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 8px;
+  align-items: center;
+}
+.slide-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--navy-500); cursor: pointer;
+  transition: all .3s ease;
+  border: 1.5px solid transparent;
+}
+.slide-dot.active {
+  background: var(--coral);
+  box-shadow: 0 0 8px var(--coral-glow);
+  border-color: var(--coral-light);
+  transform: scale(1.3);
+}
+.slide-dot:hover:not(.active) {
+  background: var(--navy-400);
+  transform: scale(1.15);
+}
+.slide-num {
+  font-family: var(--font-mono);
+  font-size: .65rem; color: var(--text-muted);
+  margin-top: 6px; letter-spacing: .05em;
+}
+
+/* ── Footer Badge ── */
+.slide-footer {
+  position: absolute; bottom: 2.5vh; left: 8vw; right: 8vw;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 2;
+}
+.slide-footer-logo { height: 16px; opacity: .3; }
+.slide-footer-text {
+  font-family: var(--font-mono); font-size: .6rem;
+  color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* ── Typography ── */
+.slide-label {
+  font-family: var(--font-mono); font-size: .7rem;
+  color: var(--coral); text-transform: uppercase;
+  letter-spacing: .25em; margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.slide-label::before {
+  content: ''; width: 24px; height: 1.5px;
+  background: var(--coral);
+}
+
+h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  line-height: 1.08; letter-spacing: -.03em;
+  margin-bottom: 1.5rem;
+}
+h2 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.12; letter-spacing: -.025em;
+  margin-bottom: 1.2rem;
+}
+h3 {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  line-height: 1.25; margin-bottom: .8rem;
+}
+
+.subtitle {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--text-secondary); line-height: 1.6;
+  max-width: 640px;
+}
+
+.coral { color: var(--coral); }
+.teal { color: var(--teal); }
+.gold { color: var(--gold); }
+.muted { color: var(--text-muted); }
+
+/* ── Stat Blocks ── */
+.stat-row {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+.stat-block {
+  flex: 1; min-width: 180px;
+  padding: 1.5rem; border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.stat-number {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1; margin-bottom: .4rem;
+  background: linear-gradient(135deg, var(--coral), var(--coral-light));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-label {
+  font-size: .8rem; color: var(--text-secondary);
+  line-height: 1.35;
+}
+.stat-source {
+  font-family: var(--font-mono); font-size: .6rem;
+  color: var(--text-muted); margin-top: .5rem;
+}
+
+/* ── Data Points (bullet lists) ── */
+.data-points {
+  list-style: none; margin-top: 1.5rem;
+  display: flex; flex-direction: column; gap: .6rem;
+}
+.data-points li {
+  display: flex; align-items: flex-start; gap: .75rem;
+  font-size: .95rem; color: var(--text-secondary); line-height: 1.5;
+}
+.data-points li::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--coral); flex-shrink: 0;
+  margin-top: .5rem;
+}
+.data-points.teal-dots li::before { background: var(--teal); }
+.data-points.gold-dots li::before { background: var(--gold); }
+
+.data-points strong { color: var(--text-primary); font-weight: 600; }
+
+/* ── Grid Layouts ── */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; margin-top: 1.5rem;
+}
+.three-col {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 2rem;
+}
+.pillar-card {
+  padding: 1.8rem; border-radius: 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  transition: border-color .3s, transform .3s;
+}
+.pillar-card:hover {
+  border-color: rgba(255,51,102,.2);
+  transform: translateY(-3px);
+}
+.pillar-card h3 { font-size: 1.05rem; }
+.pillar-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; font-size: 1.1rem;
+}
+.pillar-card ul {
+  list-style: none; margin-top: .8rem;
+}
+.pillar-card li {
+  font-size: .82rem; color: var(--text-secondary);
+  padding: .35rem 0; border-bottom: 1px solid rgba(255,255,255,.03);
+  line-height: 1.4;
+}
+.pillar-card li:last-child { border-bottom: none; }
+
+/* ── Fragmentation Visual ── */
+.frag-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: .8rem; margin-top: 2rem; max-width: 800px;
+}
+.frag-item {
+  padding: .8rem 1rem; border-radius: 8px;
+  background: var(--navy-700);
+  border: 1px solid var(--glass-border);
+  font-size: .75rem; font-weight: 500;
+  color: var(--text-secondary); text-align: center;
+  line-height: 1.3;
+  position: relative;
+}
+.frag-item::after {
+  content: '?';
+  position: absolute; top: -.4rem; right: -.4rem;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--coral-dark);
+  color: white; font-size: .55rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Comparison Bars ── */
+.compare-bar-group {
+  margin-top: 2rem; max-width: 600px;
+}
+.compare-row {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.compare-label {
+  width: 100px; font-size: .8rem; color: var(--text-secondary);
+  text-align: right; flex-shrink: 0;
+}
+.compare-track {
+  flex: 1; height: 28px; background: var(--navy-700);
+  border-radius: 6px; overflow: hidden; position: relative;
+}
+.compare-fill {
+  height: 100%; border-radius: 6px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: .8rem;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .8rem; color: white;
+  transition: width 1.2s cubic-bezier(.22,1,.36,1);
+  width: 0;
+}
+.compare-fill.coral { background: linear-gradient(90deg, var(--coral-dark), var(--coral)); }
+.compare-fill.teal-bg { background: linear-gradient(90deg, #0e7490, var(--teal)); color: var(--navy-900); }
+
+/* ── Title Slide Specific ── */
+.title-slide {
+  text-align: center; align-items: center;
+}
+.title-slide h1 {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  max-width: 900px;
+}
+.title-meta {
+  display: flex; gap: 2.5rem; margin-top: 2.5rem;
+  font-family: var(--font-mono); font-size: .7rem;
+  color: var(--text-muted); letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.title-meta span {
+  display: flex; align-items: center; gap: .5rem;
+}
+.title-logo { height: 48px; margin-bottom: 2rem; }
+.title-divider {
+  width: 60px; height: 3px; margin: 1.5rem auto;
+  background: linear-gradient(90deg, var(--coral), var(--coral-light));
+  border-radius: 2px;
+}
+
+/* ── Call to Action Slide ── */
+.cta-list {
+  list-style: none; counter-reset: cta;
+  margin-top: 2rem;
+}
+.cta-list li {
+  counter-increment: cta;
+  display: grid;
+  grid-template-columns: 32px 15rem 1fr;
+  gap: 0 1.2rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 1.05rem; line-height: 1.5;
+}
+.cta-list li:last-child { border-bottom: none; }
+.cta-list li::before {
+  content: counter(cta);
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--coral);
+  color: white; font-family: var(--font-display);
+  font-weight: 700; font-size: .9rem;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.cta-head {
+  color: var(--text-primary); font-weight: 700;
+}
+.cta-body {
+  color: var(--text-secondary);
+}
+
+/* ── Closing Slide ── */
+.closing-slide {
+  text-align: center; align-items: center;
+}
+.closing-logo { height: 64px; margin-bottom: 2rem; }
+.closing-tagline {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  color: var(--text-muted); margin-top: 1.5rem;
+  letter-spacing: .02em;
+}
+.closing-contact {
+  margin-top: 3rem; padding: 1.5rem 2.5rem;
+  border-radius: 12px; border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  font-size: .85rem; color: var(--text-secondary);
+}
+
+/* ── UK Map Background ── */
+.uk-bg {
+  position: absolute; top: 50%; right: -5%;
+  transform: translateY(-50%);
+  height: 90%; width: auto; opacity: .03;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── Four Column Grid ── */
+.four-col {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem; margin-top: 2rem;
+}
+
+/* ── Citations ── */
+sup.cite {
+  font-family: var(--font-mono);
+  font-size: .45rem;
+  color: var(--text-muted);
+  cursor: help;
+  margin-left: 1px;
+  vertical-align: super;
+  opacity: .35;
+  transition: opacity .2s, color .2s;
+  -webkit-user-select: none; user-select: none;
+}
+sup.cite:hover {
+  opacity: 1;
+  color: var(--coral);
+}
+.cite-tip {
+  position: fixed;
+  z-index: 200;
+  transform: translate(-50%, calc(-100% - 8px));
+  padding: .5rem .75rem;
+  background: var(--navy-600);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,.45);
+  max-width: 280px;
+  white-space: normal;
+}
+.cite-tip.show { opacity: 1; }
+.cite-tip::after {
+  content: '';
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--navy-600);
+}
+.cite-tip-src {
+  font-family: var(--font-display);
+  font-weight: 600; font-size: .7rem;
+  color: var(--text-primary); line-height: 1.3;
+}
+.cite-tip-title {
+  font-family: var(--font-body);
+  font-size: .62rem; font-style: italic;
+  color: var(--text-secondary); line-height: 1.3;
+}
+.cite-tip-year {
+  font-family: var(--font-mono);
+  font-size: .5rem; color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ── Reveal Animation ── */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .7s ease-out, transform .7s ease-out;
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+.reveal-delay-5 { transition-delay: .5s; }
+.reveal-delay-6 { transition-delay: .6s; }
+
+/* ── Responsive ── */
+@media screen and (max-width: 900px) {
+  .slide { padding: 5vh 5vw; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .four-col { grid-template-columns: 1fr 1fr; }
+  .frag-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-row { gap: 1rem; }
+  .slide-counter { display: none; }
+}
+
+/* ── Print ── */
+@media print {
+  html { scroll-snap-type: none; }
+  .slide {
+    min-height: auto; height: auto;
+    page-break-after: always; break-after: page;
+    padding: 2cm 2.5cm;
+  }
+  .slide::before { display: none; }
+  .progress-bar, .slide-counter { display: none; }
+  .reveal { opacity: 1; transform: none; }
+  .compare-fill { width: var(--target-width) !important; }
+  .uk-bg { display: none; }
+  sup.cite, .cite-tip { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- Slide Navigation Dots -->
+<nav class="slide-counter" id="slideCounter"></nav>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 1 — TITLE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide title-slide" data-slide="0">
+  <svg class="uk-bg" viewBox="0 0 400 650" xmlns="http://www.w3.org/2000/svg">
+    <path d="M73.5,205.4 L44.1,197.4 20.0,197.9 28.0,177.1 20.0,156.2 52.6,154.6 94.4,178.7 73.5,205.4Z" fill="white"/>
+    <path d="M194.2,223.4 L194.3,223.4 199.9,200.8 173.9,176.9 173.3,176.4 126.1,169.5 116.9,159.0 131.0,141.6 118.2,130.9 97.3,149.2 94.9,111.8 75.3,92.0 89.5,51.7 119.7,20.1 150.8,23.2 197.7,20.0 156.1,62.1 195.7,56.7 238.3,56.9 228.2,88.6 193.2,123.5 233.4,126.0 236.5,130.1 271.2,176.0 297.8,182.2 321.8,226.5 332.8,241.9 380.0,249.3 375.2,274.2 355.4,285.6 370.9,305.6 335.9,326.1 283.9,325.7 217.7,336.4 199.5,328.8 173.9,346.9 137.9,342.5 110.6,357.4 89.9,349.6 146.9,308.7 181.7,300.4 181.4,300.3 120.7,293.9 109.6,278.4 150.4,266.3 129.1,245.3 136.4,219.9 194.2,223.4Z" fill="white"/>
+  </svg>
+
+  <img src="retailbook-logo-light.svg" alt="RetailBook" class="title-logo reveal">
+  <div class="title-divider reveal reveal-delay-1"></div>
+  <h1 class="reveal reveal-delay-2">The Case for a UK<br>Primary Capital Core<br><span class="coral">Policy Framework</span></h1>
+  <p class="subtitle reveal reveal-delay-3" style="text-align:center;">Mobilising retail capital for Britain&rsquo;s growth</p>
+  <div class="title-meta reveal reveal-delay-4">
+    <span>Prepared for the Financial Conduct Authority</span>
+    <span>March 2026</span>
+    <span>Confidential</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 2 — THE OPPORTUNITY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="1">
+  <div class="slide-label reveal">The Opportunity</div>
+  <h2 class="reveal reveal-delay-1">The <span class="coral">£3.5 Trillion</span> Prize</h2>
+  <p class="subtitle reveal reveal-delay-2">The UK holds the lowest proportion of non-pension personal wealth in equities of any G7 nation. Closing this gap represents a transformational opportunity.</p>
+
+  <div class="stat-row reveal reveal-delay-3">
+    <div class="stat-block">
+      <div class="stat-number" data-count="8" data-suffix="%">0%</div>
+      <div class="stat-label">UK non-pension wealth in equities<sup class="cite" data-cite="1">1</sup></div>
+      <div class="stat-source">Lowest in G7</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number" data-count="33" data-suffix="%">0%</div>
+      <div class="stat-label">US equity allocation<sup class="cite" data-cite="1">1</sup></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number" data-prefix="£" data-count="610" data-suffix="bn">£0bn</div>
+      <div class="stat-label">UK cash that could be invested<sup class="cite" data-cite="2">2</sup></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number" data-prefix="£" data-count="3.5" data-suffix="tn" data-decimals="1">£0tn</div>
+      <div class="stat-label">Potential capital injection if UK matched US allocation<sup class="cite" data-cite="1">1</sup></div>
+    </div>
+  </div>
+
+  <ul class="data-points reveal reveal-delay-4">
+    <li>Only <strong>35% of UK adults</strong> hold investments &mdash; down from 37%<sup class="cite" data-cite="3">3</sup>. In the US, <strong>62% own stock</strong><sup class="cite" data-cite="4">4</sup></li>
+    <li><strong>50% of UK household wealth</strong> sits in property<sup class="cite" data-cite="5">5</sup> &mdash; non-productive from a capital markets perspective</li>
+  </ul>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 3 — MARKET STRUCTURAL DECLINE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="2">
+  <div class="slide-label reveal">Crisis I</div>
+  <h2 class="reveal reveal-delay-1">Market Structural <span class="coral">Decline</span></h2>
+  <p class="subtitle reveal reveal-delay-2">London&rsquo;s capital markets are shrinking. Companies are leaving, listings have collapsed, and individual share ownership has eroded to historic lows.</p>
+
+  <div class="two-col reveal reveal-delay-3">
+    <div>
+      <h3>The Listing Exodus</h3>
+      <ul class="data-points">
+        <li>IPOs collapsed <strong>86%</strong> &mdash; 126 (2021) to just 18 (2024)<sup class="cite" data-cite="7">7</sup></li>
+        <li><strong>88 delistings</strong> in 2024 &mdash; worst since 2009<sup class="cite" data-cite="6">6</sup></li>
+        <li>London fell to <strong>20th globally</strong> for IPOs<sup class="cite" data-cite="7">7</sup></li>
+        <li><strong>56%</strong> of UK firms considered listing abroad (up from 27%)<sup class="cite" data-cite="8">8</sup></li>
+      </ul>
+    </div>
+    <div>
+      <h3>The Ownership Collapse</h3>
+      <div class="compare-bar-group">
+        <div class="compare-row">
+          <span class="compare-label">1963</span>
+          <div class="compare-track">
+            <div class="compare-fill coral" style="--target-width:54%" data-width="54">54%</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">2024</span>
+          <div class="compare-track">
+            <div class="compare-fill coral" style="--target-width:11.6%" data-width="11.6">11.6%</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:1rem;">Individual share ownership of UK-quoted companies<sup class="cite" data-cite="9">9</sup></p>
+      <ul class="data-points" style="margin-top:1rem;">
+        <li>AIM: <strong>679 companies</strong> &mdash; lowest since 2001, down 60% from peak<sup class="cite" data-cite="6">6</sup></li>
+        <li>British public <strong>£1.045 trillion poorer</strong> had ownership remained at 1963 levels<sup class="cite" data-cite="9">9</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 4 — PENSION-EQUITY DISCONNECT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="3">
+  <div class="slide-label reveal">Crisis II</div>
+  <h2 class="reveal reveal-delay-1">The Pension&ndash;Equity <span class="coral">Disconnect</span></h2>
+  <p class="subtitle reveal reveal-delay-2">UK pension funds have almost entirely abandoned UK equities. Automatic enrolment drove participation, but engagement and allocation remain catastrophic.</p>
+
+  <div class="two-col reveal reveal-delay-3">
+    <div>
+      <h3>Allocation Collapse</h3>
+      <div class="compare-bar-group">
+        <div class="compare-row">
+          <span class="compare-label">1997</span>
+          <div class="compare-track">
+            <div class="compare-fill coral" style="--target-width:53%" data-width="53">53%</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Today</span>
+          <div class="compare-track">
+            <div class="compare-fill coral" style="--target-width:4.4%" data-width="4.4">4.4%</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:.8rem;">UK pension fund allocation to UK equities<sup class="cite" data-cite="10">10</sup></p>
+
+      <h3 style="margin-top:2rem;">International Comparison</h3>
+      <div class="compare-bar-group">
+        <div class="compare-row">
+          <span class="compare-label">Australia</span>
+          <div class="compare-track">
+            <div class="compare-fill teal-bg" style="--target-width:45%" data-width="45">45%</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">NZ</span>
+          <div class="compare-track">
+            <div class="compare-fill teal-bg" style="--target-width:42%" data-width="42">42%</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Canada</span>
+          <div class="compare-track">
+            <div class="compare-fill teal-bg" style="--target-width:22%" data-width="22">22%</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">UK</span>
+          <div class="compare-track">
+            <div class="compare-fill coral" style="--target-width:12%" data-width="12">8&ndash;17%</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:.5rem;">Domestic equity allocation by pension systems<sup class="cite" data-cite="13">13</sup></p>
+    </div>
+    <div>
+      <h3>Engagement Failure</h3>
+      <ul class="data-points">
+        <li>Over <strong>80%</strong> of DC scheme members remain in passive default funds<sup class="cite" data-cite="11">11</sup></li>
+        <li>At NEST: <strong>99%+</strong> in default retirement-date funds<sup class="cite" data-cite="12">12</sup></li>
+        <li>Statutory <strong>8% minimum contribution</strong> rate widely considered inadequate<sup class="cite" data-cite="28">28</sup></li>
+        <li><strong>50% of adults</strong> have no plan for finances in retirement<sup class="cite" data-cite="3">3</sup></li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Mansion House Accord</h3>
+      <ul class="data-points teal-dots">
+        <li><strong>17 signatories</strong> commit to 10% in private markets by 2030<sup class="cite" data-cite="14">14</sup></li>
+        <li>Expected to mobilise <strong>£50 billion</strong> in pension capital<sup class="cite" data-cite="14">14</sup></li>
+        <li>Progress so far: <strong>£1.6 billion</strong> invested (from £0.8bn YoY)<sup class="cite" data-cite="15">15</sup></li>
+        <li>Government reserves power to mandate allocation if progress stalls<sup class="cite" data-cite="14">14</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 5 — FINANCIAL LITERACY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="4">
+  <div class="slide-label reveal">Crisis III</div>
+  <h2 class="reveal reveal-delay-1">Financial Literacy <span class="coral">Crisis</span></h2>
+  <p class="subtitle reveal reveal-delay-2">The UK population lacks the knowledge and confidence to participate meaningfully in capital markets. The gender gap compounds the problem.</p>
+
+  <div class="two-col reveal reveal-delay-3">
+    <div>
+      <div class="stat-row" style="margin-top:0;">
+        <div class="stat-block">
+          <div class="stat-number">15th</div>
+          <div class="stat-label">of 29 OECD countries in financial literacy<sup class="cite" data-cite="16">16</sup></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number" data-count="26.4" data-suffix="m" data-decimals="1">0m</div>
+          <div class="stat-label">UK adults show financial vulnerability<sup class="cite" data-cite="3">3</sup></div>
+          <div class="stat-source">49% of population</div>
+        </div>
+      </div>
+      <ul class="data-points" style="margin-top:1.5rem;">
+        <li><strong>22.5 million</strong> don&rsquo;t understand pensions enough to make decisions<sup class="cite" data-cite="17">17</sup></li>
+        <li>Only <strong>52%</strong> understand compound interest<sup class="cite" data-cite="16">16</sup></li>
+        <li>Only <strong>57%</strong> can compute a simple interest rate<sup class="cite" data-cite="16">16</sup></li>
+      </ul>
+    </div>
+    <div>
+      <h3>The Gender Investment Gap</h3>
+      <div class="stat-row" style="margin-top:0;">
+        <div class="stat-block">
+          <div class="stat-number" data-prefix="£" data-count="678" data-suffix="bn">£0bn</div>
+          <div class="stat-label">Gender investment gap &mdash; roughly Switzerland&rsquo;s GDP<sup class="cite" data-cite="18">18</sup></div>
+        </div>
+      </div>
+      <ul class="data-points" style="margin-top:1rem;">
+        <li><strong>3.3 million more men</strong> invest than women (10M vs 6.7M)<sup class="cite" data-cite="18">18</sup></li>
+        <li>Men own <strong>71%</strong> of all invested assets<sup class="cite" data-cite="18">18</sup></li>
+        <li>Young men invest at <strong>double the rate</strong> of young women<sup class="cite" data-cite="18">18</sup></li>
+        <li>Gap <strong>increased by £54 billion</strong> in a single year<sup class="cite" data-cite="18">18</sup></li>
+        <li>Women actually <strong>perform better</strong> as investors on average &mdash; the gap is confidence, not capability<sup class="cite" data-cite="18">18</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 6 — INFORMATION INFRASTRUCTURE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="5">
+  <div class="slide-label reveal">Crisis IV</div>
+  <h2 class="reveal reveal-delay-1">Information Infrastructure <span class="coral">Failure</span></h2>
+  <p class="subtitle reveal reveal-delay-2">The market information ecosystem is broken. Disclosure is unstructured, access is expensive, and the tools connecting investors to markets are fragmented.</p>
+
+  <div class="two-col reveal reveal-delay-3">
+    <div>
+      <h3>The Access Problem</h3>
+      <ul class="data-points">
+        <li>Bloomberg terminal: <strong>£32,000/year</strong> &mdash; excludes retail<sup class="cite" data-cite="19">19</sup></li>
+        <li>Commissioned research: <strong>£20,000&ndash;£50,000</strong> per report</li>
+        <li>Many AIM stocks have <strong>zero analyst coverage</strong><sup class="cite" data-cite="20">20</sup></li>
+        <li>RNS announcements are <strong>unstructured Word documents</strong>, not machine-readable data<sup class="cite" data-cite="6">6</sup></li>
+        <li>Historical data locked in <strong>PDFs and archived web pages</strong></li>
+      </ul>
+    </div>
+    <div>
+      <h3>The Integration Gap</h3>
+      <div class="stat-row" style="margin-top:0;">
+        <div class="stat-block">
+          <div class="stat-number">36pt</div>
+          <div class="stat-label">Gap between general tool satisfaction and data integration satisfaction<sup class="cite" data-cite="21">21</sup></div>
+        </div>
+      </div>
+      <ul class="data-points" style="margin-top:1rem;">
+        <li><strong>67%</strong> of executives say IR spends too much time on admin<sup class="cite" data-cite="21">21</sup></li>
+        <li><strong>9/10 teams</strong> deal with daily manual work from disconnected systems<sup class="cite" data-cite="21">21</sup></li>
+        <li><strong>33% of C-suite</strong> rank retail engagement as top priority &mdash; but only <strong>10% of IR teams</strong> do<sup class="cite" data-cite="21">21</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 7 — REFORM LANDSCAPE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="6">
+  <div class="slide-label reveal">Context</div>
+  <h2 class="reveal reveal-delay-1">The Reform <span class="coral">Landscape</span></h2>
+  <p class="subtitle reveal reveal-delay-2">Significant reform is underway across three fronts. Each represents progress &mdash; but they lack a unifying framework.</p>
+
+  <div class="three-col reveal reveal-delay-3">
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(255,51,102,.12);color:var(--coral);">&#9670;</div>
+      <h3>Market Structure</h3>
+      <ul>
+        <li>New listing rules &mdash; single ESCC category <strong>(July 2024)</strong><sup class="cite" data-cite="29">29</sup></li>
+        <li>PISCES live &mdash; LSE first auction <strong>(March 2026)</strong><sup class="cite" data-cite="27">27</sup></li>
+        <li>T+1 settlement <strong>(October 2027)</strong><sup class="cite" data-cite="28">28</sup></li>
+        <li>SDRT 3-year holiday for new IPOs</li>
+        <li>Dual-class shares now permitted<sup class="cite" data-cite="29">29</sup></li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(34,211,238,.12);color:var(--teal);">&#9671;</div>
+      <h3>Investor Access</h3>
+      <ul>
+        <li>Public Offer Platforms (POPs) <strong>(Jan 2026)</strong></li>
+        <li>Targeted Support regime <strong>(April 2026)</strong></li>
+        <li>Plain Vanilla Listed Bonds for retail</li>
+        <li>Consumer Duty framework</li>
+        <li>New public offers &amp; admissions regime</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(240,185,82,.12);color:var(--gold);">&#9672;</div>
+      <h3>Pension Reform</h3>
+      <ul>
+        <li>Mansion House Accord &mdash; <strong>10% target</strong> by 2030<sup class="cite" data-cite="14">14</sup></li>
+        <li>Mega-funds: <strong>£25bn minimum</strong> by 2030<sup class="cite" data-cite="14">14</sup></li>
+        <li>Value for Money Framework <strong>(2028)</strong></li>
+        <li>Reserve powers to mandate allocation<sup class="cite" data-cite="14">14</sup></li>
+        <li>Leeds Reforms &mdash; 10-year strategy</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 8 — THE FRAGMENTATION PROBLEM -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="7">
+  <div class="slide-label reveal">The Problem</div>
+  <h2 class="reveal reveal-delay-1"><span class="coral">10+</span> Reform Workstreams.<br>No Coordinating Framework.</h2>
+  <p class="subtitle reveal reveal-delay-2">Each initiative proceeds on a different timeline, with different governance, and no mechanism connecting them into a coherent primary capital pipeline.</p>
+
+  <div class="frag-grid reveal reveal-delay-3">
+    <div class="frag-item">Listing Rules Reform</div>
+    <div class="frag-item">Prospectus Regime</div>
+    <div class="frag-item">PISCES</div>
+    <div class="frag-item">T+1 Settlement</div>
+    <div class="frag-item">Pension Reform</div>
+    <div class="frag-item">SDRT Relief</div>
+    <div class="frag-item">Advice Gap / Targeted Support</div>
+    <div class="frag-item">Public Offer Platforms</div>
+    <div class="frag-item">Digital Securities Sandbox</div>
+    <div class="frag-item">Value for Money Framework</div>
+  </div>
+
+  <div style="margin-top:2.5rem;padding:1.2rem 1.8rem;border-left:3px solid var(--coral);background:rgba(255,51,102,.04);border-radius:0 8px 8px 0;max-width:700px;" class="reveal reveal-delay-4">
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.5;">
+      <strong style="color:var(--text-primary);">Without coordination, reform fragments rather than compounds.</strong>
+      A company navigating PISCES to IPO to retail access faces three separate regulatory regimes, timelines, and compliance requirements &mdash; with no connecting pathway.
+    </p>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 9 — THE DEPTH GAP -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="8">
+  <div class="slide-label reveal">Scale</div>
+  <h2 class="reveal reveal-delay-1">UK Capital Markets Are<br><span class="coral">Half as Deep</span> as the US</h2>
+  <p class="subtitle reveal reveal-delay-2">The gap has widened over the past decade. Closing it would transform Britain&rsquo;s economic capacity.</p>
+
+  <div class="stat-row reveal reveal-delay-3">
+    <div class="stat-block">
+      <div class="stat-number" data-prefix="£" data-count="900" data-suffix="bn">£0bn</div>
+      <div class="stat-label">Long-term capital unlocked by closing the depth gap<sup class="cite" data-cite="22">22</sup></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number" data-prefix="£" data-count="90" data-suffix="bn">£0bn</div>
+      <div class="stat-label">Additional capital markets funding per year<sup class="cite" data-cite="22">22</sup></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number" data-prefix="£" data-count="1" data-suffix="tn">£0tn</div>
+      <div class="stat-label">Additional investment needed over the next decade<sup class="cite" data-cite="23">23</sup></div>
+    </div>
+  </div>
+
+  <div class="two-col reveal reveal-delay-4" style="margin-top:2rem;">
+    <div>
+      <h3>Financial Services Contribution</h3>
+      <ul class="data-points teal-dots">
+        <li><strong>£281 billion</strong> GVA (2024) &mdash; £12 in every £100 of output<sup class="cite" data-cite="24">24</sup></li>
+        <li><strong>£110.2 billion</strong> tax contribution (record high)<sup class="cite" data-cite="24">24</sup></li>
+        <li><strong>2.5 million jobs</strong>, two thirds outside London<sup class="cite" data-cite="24">24</sup></li>
+        <li>Productivity <strong>2.7&times; higher</strong> than economy average<sup class="cite" data-cite="24">24</sup></li>
+      </ul>
+    </div>
+    <div>
+      <h3>AIM Alone</h3>
+      <ul class="data-points teal-dots">
+        <li><strong>£35.7 billion</strong> GVA contributed to UK GDP<sup class="cite" data-cite="25">25</sup></li>
+        <li>Supported over <strong>410,000 jobs</strong><sup class="cite" data-cite="25">25</sup></li>
+        <li>Largest trade surplus of any UK sector: <strong>£114.1 billion</strong><sup class="cite" data-cite="24">24</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 10 — RETAILBOOK'S ROLE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="9">
+  <svg class="uk-bg" viewBox="0 0 400 650" xmlns="http://www.w3.org/2000/svg" style="right:auto;left:-5%;">
+    <path d="M73.5,205.4 L44.1,197.4 20.0,197.9 28.0,177.1 20.0,156.2 52.6,154.6 94.4,178.7 73.5,205.4Z" fill="white"/>
+    <path d="M194.2,223.4 L194.3,223.4 199.9,200.8 173.9,176.9 173.3,176.4 126.1,169.5 116.9,159.0 131.0,141.6 118.2,130.9 97.3,149.2 94.9,111.8 75.3,92.0 89.5,51.7 119.7,20.1 150.8,23.2 197.7,20.0 156.1,62.1 195.7,56.7 238.3,56.9 228.2,88.6 193.2,123.5 233.4,126.0 236.5,130.1 271.2,176.0 297.8,182.2 321.8,226.5 332.8,241.9 380.0,249.3 375.2,274.2 355.4,285.6 370.9,305.6 335.9,326.1 283.9,325.7 217.7,336.4 199.5,328.8 173.9,346.9 137.9,342.5 110.6,357.4 89.9,349.6 146.9,308.7 181.7,300.4 181.4,300.3 120.7,293.9 109.6,278.4 150.4,266.3 129.1,245.3 136.4,219.9 194.2,223.4Z" fill="white"/>
+  </svg>
+
+  <div class="slide-label reveal">RetailBook</div>
+  <h2 class="reveal reveal-delay-1">Where RetailBook Sits<br>in the <span class="coral">Ecosystem</span></h2>
+  <p class="subtitle reveal reveal-delay-2">RetailBook is the infrastructure layer that connects retail capital with primary markets &mdash; structured, accessible, and built within the regulatory framework.</p>
+
+  <div class="three-col reveal reveal-delay-3" style="margin-top:2.5rem;">
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(255,51,102,.12);color:var(--coral);">&#9656;</div>
+      <h3>Structured Market Information</h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.5;">Transforms unstructured RNS announcements into accessible, machine-readable data for all market participants.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(34,211,238,.12);color:var(--teal);">&#9656;</div>
+      <h3>Education-First Approach</h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.5;">Just-in-time financial education at the point of decision. Compliant with the FCA&rsquo;s targeted support framework and Consumer Duty.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(240,185,82,.12);color:var(--gold);">&#9656;</div>
+      <h3>Capital Formation Bridge</h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.5;">Connects the PISCES &rarr; IPO &rarr; retail access pathway, bridging the gap between companies raising capital and investors deploying it.</p>
+    </div>
+  </div>
+
+  <p class="reveal reveal-delay-4" style="margin-top:2rem;font-size:.85rem;color:var(--text-muted);">
+    <a href="index.html" style="color:var(--coral);text-decoration:none;border-bottom:1px solid rgba(255,51,102,.3);">View the full ecosystem diagram &rarr;</a>
+  </p>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 11 — THE FRAMEWORK PROPOSAL -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="10">
+  <div class="slide-label reveal">Proposal</div>
+  <h2 class="reveal reveal-delay-1">Primary Capital Core<br><span class="coral">Policy Framework</span></h2>
+  <p class="subtitle reveal reveal-delay-2">Four pillars to coordinate reform, mobilise capital, and rebuild Britain&rsquo;s primary markets.</p>
+
+  <div class="four-col reveal reveal-delay-3">
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(255,51,102,.12);color:var(--coral);">01</div>
+      <h3>Education &amp; Participation</h3>
+      <ul>
+        <li>Funded education platforms to close the UK/US content gap</li>
+        <li>Standardised curriculum supporting targeted support regime</li>
+        <li>Close the £678bn gender investment gap</li>
+        <li>Just-in-time delivery &mdash; not &ldquo;learn now, use later&rdquo;</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(34,211,238,.12);color:var(--teal);">02</div>
+      <h3>Market Infrastructure &amp; Data</h3>
+      <ul>
+        <li>Structured disclosure at source (XML/JSON, not PDF)</li>
+        <li>Open APIs for real-time company information</li>
+        <li>Reduced compliance and data friction for IR</li>
+        <li>Standardised financial promotion approval</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(240,185,82,.12);color:var(--gold);">03</div>
+      <h3>Cost Reduction &amp; Access</h3>
+      <ul>
+        <li>SME listing pathway on AIM/Growth Markets</li>
+        <li>Extended tax incentives (ISA, LISA, VCT)</li>
+        <li>Subsidised or mandated API access to regulatory data</li>
+        <li>Reduced listing costs (currently £600k+)</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-icon" style="background:rgba(138,155,189,.15);color:var(--text-secondary);">04</div>
+      <h3>Regulatory Enablement</h3>
+      <ul>
+        <li>Fast-track targeted support regime</li>
+        <li>Clarity on education vs promotion vs advice</li>
+        <li>Support fintech platforms serving retail</li>
+        <li>Connect PISCES &rarr; IPO &rarr; retail pathway</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 12 — GDP IMPACT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="11">
+  <div class="slide-label reveal">Impact</div>
+  <h2 class="reveal reveal-delay-1">The <span class="coral">GDP Uplift</span></h2>
+
+  <div class="reveal reveal-delay-2" style="text-align:center;margin:2rem 0;">
+    <div style="font-family:var(--font-display);font-weight:900;font-size:clamp(3rem,7vw,5.5rem);line-height:1;background:linear-gradient(135deg,var(--coral),var(--coral-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
+      £600bn
+    </div>
+    <p style="font-size:1.15rem;color:var(--text-secondary);margin-top:1rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6;">
+      Mobilising UK retail capital into productive primary markets could drive a <strong style="color:var(--coral);">2% GDP uplift</strong>, accelerate and strengthen Britain&rsquo;s regional growth engine.
+    </p>
+  </div>
+
+  <div class="stat-row reveal reveal-delay-3" style="max-width:800px;margin:0 auto;">
+    <div class="stat-block" style="text-align:center;">
+      <div class="stat-number">2.5m</div>
+      <div class="stat-label">Jobs in financial services<br>⅔ outside London</div>
+    </div>
+    <div class="stat-block" style="text-align:center;">
+      <div class="stat-number">2.7&times;</div>
+      <div class="stat-label">Higher productivity<br>than economy average</div>
+    </div>
+    <div class="stat-block" style="text-align:center;">
+      <div class="stat-number">£114bn</div>
+      <div class="stat-label">Trade surplus<br>Largest of any UK sector</div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 13 — CALL TO ACTION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide" data-slide="12">
+  <div class="slide-label reveal">Recommendation</div>
+  <h2 class="reveal reveal-delay-1">Call to <span class="coral">Action</span></h2>
+
+  <div class="reveal reveal-delay-2" style="margin-top:.5rem;padding:1.2rem 1.8rem;border-left:3px solid var(--teal);background:rgba(34,211,238,.04);border-radius:0 8px 8px 0;max-width:750px;">
+    <p style="font-size:1rem;color:var(--text-secondary);line-height:1.6;">
+      The FCA&rsquo;s 2025&ndash;2030 strategy explicitly prioritises growth.<sup class="cite" data-cite="26">26</sup> A <strong style="color:var(--text-primary);">Primary Capital Core Policy Framework</strong> operationalises that strategic commitment &mdash; and provides the coordinating mechanism the FCA itself needs.
+    </p>
+  </div>
+
+  <ol class="cta-list reveal reveal-delay-3">
+    <li>
+      <div class="cta-head">Endorse a coordinating framework</div>
+      <div class="cta-body">Connecting all 10+ reform workstreams into a coherent primary capital pipeline &mdash; from private markets (PISCES) through listing to retail access.</div>
+    </li>
+    <li>
+      <div class="cta-head">Fast-track the targeted support regime</div>
+      <div class="cta-body">For retail education platforms, enabling personalised tools without full advice authorisation &mdash; closing the advice gap at scale.</div>
+    </li>
+    <li>
+      <div class="cta-head">Mandate structured disclosure</div>
+      <div class="cta-body">To democratise market information &mdash; replacing unstructured Word documents with machine-readable data at source, reducing asymmetry between institutional and retail investors.</div>
+    </li>
+  </ol>
+
+  <div class="slide-footer">
+    <img src="retailbook-logo-light.svg" alt="RetailBook" class="slide-footer-logo">
+    <span class="slide-footer-text">Primary Capital Core Policy Framework</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 14 — CLOSING -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide closing-slide" data-slide="13">
+  <img src="retailbook-logo-light.svg" alt="RetailBook" class="closing-logo reveal">
+  <h2 class="reveal reveal-delay-1" style="font-weight:300;font-size:clamp(1.5rem,3vw,2.4rem);">
+    <span style="font-weight:700;">Confident Capital</span>
+    <span class="muted" style="font-weight:300;"> meets </span>
+    <span class="coral" style="font-weight:700;">Trusted Capability</span>
+  </h2>
+  <p class="closing-tagline reveal reveal-delay-2">Mobilising Britain&rsquo;s retail capital for productive growth</p>
+
+  <div class="closing-contact reveal reveal-delay-3">
+    <p><strong>RetailBook</strong></p>
+    <p style="margin-top:.5rem;">info@retailbook.com &nbsp;&bull;&nbsp; retailbook.com</p>
+  </div>
+
+  <div class="slide-footer" style="text-align:center;justify-content:center;">
+    <span class="slide-footer-text">© 2026 RetailBook. All rights reserved. This document is confidential.</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  const slides = document.querySelectorAll('.slide');
+  const progressFill = document.getElementById('progressFill');
+  const counterContainer = document.getElementById('slideCounter');
+
+  // Build navigation dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => {
+      slides[i].scrollIntoView({ behavior: 'smooth' });
+    });
+    counterContainer.appendChild(dot);
+  });
+
+  // Add slide number
+  const numEl = document.createElement('div');
+  numEl.className = 'slide-num';
+  numEl.textContent = '1/' + slides.length;
+  counterContainer.appendChild(numEl);
+
+  const dots = counterContainer.querySelectorAll('.slide-dot');
+
+  // ── Scroll Observer for active slide ──
+  const slideObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.slide);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        numEl.textContent = (idx + 1) + '/' + slides.length;
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => slideObs.observe(s));
+
+  // ── Progress bar ──
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    progressFill.style.width = pct + '%';
+  }, { passive: true });
+
+  // ── Reveal animations ──
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Animated counters ──
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = '1';
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+
+  function animateCounter(el) {
+    const target = parseFloat(el.dataset.count);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals) || 0;
+    const duration = 1200;
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = target * eased;
+      el.textContent = prefix + current.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // ── Comparison bar animations ──
+  const barObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fills = entry.target.querySelectorAll('.compare-fill');
+        fills.forEach((fill, i) => {
+          setTimeout(() => {
+            fill.style.width = fill.dataset.width + '%';
+          }, i * 200);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.compare-bar-group').forEach(el => barObs.observe(el));
+
+  // ── Keyboard navigation ──
+  document.addEventListener('keydown', (e) => {
+    let currentSlide = 0;
+    dots.forEach((d, i) => { if (d.classList.contains('active')) currentSlide = i; });
+
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      if (currentSlide < slides.length - 1) {
+        slides[currentSlide + 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (currentSlide > 0) {
+        slides[currentSlide - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      slides[0].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // ── Citation Tooltips ──
+  const CITE = [
+    null,
+    { s:'abrdn', t:'Investing in the UK: The Case for Change', y:'2025' },
+    { s:'Barclays', t:'UK Consumer Spending & Saving Report', y:'2025' },
+    { s:'FCA', t:'Financial Lives Survey', y:'2024' },
+    { s:'Gallup', t:'Stock Ownership Survey', y:'2024' },
+    { s:'ONS', t:'Household Wealth in Great Britain', y:'2024' },
+    { s:'London Stock Exchange', t:'Primary Markets Statistics', y:'2024' },
+    { s:'EY', t:'Global IPO Trends', y:'2025' },
+    { s:'BDO', t:'UK Capital Markets Survey', y:'2024' },
+    { s:'ONS', t:'Ownership of UK Quoted Shares', y:'2024' },
+    { s:'Pensions Policy Institute', t:'UK Pension Fund Asset Allocation', y:'2024' },
+    { s:'The Pensions Regulator', t:'DC Trust Annual Report', y:'2024' },
+    { s:'NEST', t:'Annual Report & Accounts', y:'2024' },
+    { s:'OECD', t:'Pensions at a Glance', y:'2023' },
+    { s:'HM Treasury', t:'Mansion House Accord', y:'2024' },
+    { s:'Mansion House Accord', t:'Annual Progress Report', y:'2025' },
+    { s:'OECD/INFE', t:'International Survey of Adult Financial Literacy', y:'2023' },
+    { s:'MAPS', t:'UK Strategy for Financial Wellbeing', y:'2024' },
+    { s:'Hargreaves Lansdown', t:'Savings & Resilience Barometer', y:'2024' },
+    { s:'Bloomberg Professional Services', t:'Terminal Subscription Pricing', y:'2025' },
+    { s:'Hardman & Co', t:'AIM Research Coverage Report', y:'2024' },
+    { s:'Irwin', t:'Global Investor Relations Practice Report', y:'2026' },
+    { s:'New Financial', t:'The Value of Capital Markets to the UK', y:'2024' },
+    { s:'Capital Markets Industry Taskforce', t:'Report to the Chancellor', y:'2024' },
+    { s:'TheCityUK', t:'Key Facts about UK Financial Services', y:'2025' },
+    { s:'Grant Thornton / QCA', t:'The AIM Market: Economic Impact', y:'2024' },
+    { s:'FCA', t:'Our Strategy 2025 to 2030', y:'2025' },
+    { s:'London Stock Exchange', t:'PISCES Platform Launch', y:'2026' },
+    { s:'Accelerated Settlement Taskforce', t:'Final Report', y:'2024' },
+    { s:'FCA', t:'Primary Markets Reform PS24/6', y:'2024' }
+  ];
+
+  const tip = document.createElement('div');
+  tip.className = 'cite-tip';
+  document.body.appendChild(tip);
+
+  document.querySelectorAll('sup.cite').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const c = CITE[parseInt(el.dataset.cite)];
+      if (!c) return;
+      tip.innerHTML = '<div class="cite-tip-src">' + c.s + '</div>' +
+        '<div class="cite-tip-title">' + c.t + '</div>' +
+        '<div class="cite-tip-year">' + c.y + '</div>';
+      const r = el.getBoundingClientRect();
+      tip.style.left = (r.left + r.width / 2) + 'px';
+      tip.style.top = r.top + 'px';
+      tip.classList.add('show');
+    });
+    el.addEventListener('mouseleave', () => {
+      tip.classList.remove('show');
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
